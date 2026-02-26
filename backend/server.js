@@ -18,7 +18,14 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/api/workouts', (req, res) => {
+  res.json({ 
+    message: 'Alle Workouts',
+    success: true
+  });
+})
+
 // Start de server
 app.listen(PORT, () => {
-  console.log(`Server draait op http://localhost:${PORT}`);
+  console.log(`Server draait op http://localhost:${PORT}/workout`);
 });
