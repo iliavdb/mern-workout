@@ -1,5 +1,6 @@
 // Importeer Express
 import express from 'express';
+import mongoose from 'mongoose';
 
 // Maak Express app
 const app = express();
@@ -25,7 +26,16 @@ app.get('/api/workouts', (req, res) => {
   });
 })
 
-// Start de server
-app.listen(PORT, () => {
-  console.log(`Server draait op http://localhost:${PORT}/workout`);
-});
+// Verbind met MongoDB en start server
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('Verbonden met MongoDB');
+    
+    // Start server ALLEEN als database gelukt is
+    app.listen(PORT, () => {
+      console.log(`Server draait op http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Database verbinding mislukt:', error.message);
+  });
