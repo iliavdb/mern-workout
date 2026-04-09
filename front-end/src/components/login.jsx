@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Login() {
+function Login({ onLoginSuccess }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -21,7 +21,8 @@ function Login() {
                 // Sla token op
                 localStorage.setItem('token', data.token);
                 console.log('Ingelogd!');
-                // Redirect of refresh workouts
+                // Roep de callback aan zodat de parent weet dat we zijn ingelogd
+                onLoginSuccess();
             } else {
                 setError(data.error);
             }
