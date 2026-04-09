@@ -8,18 +8,36 @@ function App() {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/workouts');
+      const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.log('Niet ingelogd');
+        return;
+        }
+
+         try {
+
+         const response = await fetch('http://localhost:4000/api/workouts', {
+            headers: {
+           'Authorization': `Bearer ${token}`
+            }
+        });
+
         const data = await response.json();
         setWorkouts(data);
       } catch (error) {
         console.error('Error:', error);
       }
+
     };
 
     fetchWorkouts();
   }, [workouts]);
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    console.log('Uitgelogd');
+    // Redirect naar login pagina of clear workouts
+};
   return (
     <div className="App">
       <h1>Workouts</h1>
